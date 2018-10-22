@@ -16,7 +16,7 @@ try:
     import elementtree.ElementInclude as ETI
 except ImportError:
     from xml.etree import ElementInclude as ETI
-import json as simplejson
+import simplejson
 try:
     from collections import OrderedDict
 except:
@@ -501,7 +501,7 @@ class fixed(Outmessage):
                     value = value.rjust(field_definition[MINLENGTH])
                 else:
                     value = value.zfill(field_definition[MINLENGTH])
-                value = value.replace('.',self.ta_info['decimaal'],1)    #replace '.' by required decimal sep.
+                value = decimal.Decimal(value)    #replace '.' by required decimal sep.
             elif field_definition[BFORMAT] == 'I':  #implicit decimals
                 dec_value = decimal.Decimal('0') * 10**field_definition[DECIMALS]
                 value = unicode(dec_value.quantize(NODECIMAL ))
@@ -728,7 +728,8 @@ class json(Outmessage):
             indent = 2
         else:
             indent = None
-        simplejson.dump(jsonobject, self._outstream, skipkeys=False, ensure_ascii=False, check_circular=False, indent=indent)
+        simplejson.dump(jsonobject, self._outstream, skipkeys=False, ensure_ascii=False, check_circular=False,
+                        indent=indent, use_decimal=True)
 
     def _closewrite(self):
         if self.multiplewrite:
