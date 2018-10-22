@@ -1,0 +1,3 @@
+[submodule "ediusersys"]
+	path = ediusersys
+	url = https://github.com/colbsa/ediusersys.git
